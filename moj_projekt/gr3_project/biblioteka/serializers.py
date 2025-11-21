@@ -65,7 +65,7 @@ class BookSerializer(serializers.ModelSerializer):
         read_only_fields = ['id']
     
     def validate_title(self, value):
-        if not value.istitle():
+        if not value[0].isupper():
             raise serializers.ValidationError(
                 "Tytuł książki powinien rozpoczynać się wielką literą!"
             )
@@ -93,12 +93,12 @@ class AuthorSerializer(serializers.ModelSerializer):
         country = data.get('country')
 
         # Imię i nazwisko powinny zaczynać się wielką literą
-        if first_name and not first_name.istitle():
+        if first_name and not (first_name[0].isupper() and first_name.isalpha()):
             raise serializers.ValidationError(
                 {"first_name": "Imię powinno rozpoczynać się wielką literą!"}
             )
 
-        if last_name and not last_name.istitle():
+        if last_name and not (last_name[0].isupper() and last_name.isalpha()):
             raise serializers.ValidationError(
                 {"last_name": "Nazwisko powinno rozpoczynać się wielką literą!"}
             )
@@ -131,14 +131,14 @@ class OsobaSerializer(serializers.ModelSerializer):
         fields = "__all__"
         
     def validate_imie(self, value):
-        if not value.istitle():
+        if not (value[0].isupper() and value.isalpha()):
             raise serializers.ValidationError(
                 "Imię powininno zawierać tylko litery i rozpoczynać się wielką literą!"
             )
         return value
     
     def validate_nazwisko(self, value):
-        if not value.istitle():
+        if not (value[0].isupper() and value.isalpha()):
             raise serializers.ValidationError(
                 "Nazwisko powininno zawierać tylko litery i rozpoczynać się wielką literą!"
             )
