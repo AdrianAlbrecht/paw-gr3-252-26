@@ -71,7 +71,7 @@ def osoba_detail(request, pk):
         serializer = OsobaSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == 'DELETE':
@@ -119,7 +119,7 @@ def stanowisko_detail(request, pk):
         serializer = StanowiskoSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     elif request.method == 'DELETE':
@@ -135,62 +135,62 @@ def stanowisko_list(request):
         
 
 
-# from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, RetrieveDestroyAPIView, CreateAPIView, ListAPIView
-# from rest_framework.views import APIView
-# from rest_framework.filters import SearchFilter
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, RetrieveDestroyAPIView, CreateAPIView, ListAPIView
+from rest_framework.views import APIView
+from rest_framework.filters import SearchFilter
 
-# class BookListView(ListCreateAPIView):
-#     queryset = Book.objects.all()
-#     serializer_class = BookSerializer
+class BookListView(ListCreateAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
 
-# class BookDetailView(RetrieveUpdateDestroyAPIView):
-#     queryset = Book.objects.all()
-#     serializer_class = BookSerializer
+class BookDetailView(RetrieveUpdateDestroyAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
 
-# # 1. Wyświetlanie, dodawanie i usuwanie pojedynczego obiektu Osoba
-# class OsobaDetailAPIView(RetrieveDestroyAPIView, CreateAPIView):
-#     queryset = Osoba.objects.all()
-#     serializer_class = OsobaSerializer
+# 1. Wyświetlanie, dodawanie i usuwanie pojedynczego obiektu Osoba
+class OsobaDetailAPIView(RetrieveDestroyAPIView, CreateAPIView):
+    queryset = Osoba.objects.all()
+    serializer_class = OsobaSerializer
 
-# # 2. Wyświetlanie listy wszystkich obiektów Osoba
-# class OsobaListAPIView(ListAPIView):
-#     queryset = Osoba.objects.all()
-#     serializer_class = OsobaSerializer
+# 2. Wyświetlanie listy wszystkich obiektów Osoba
+class OsobaListAPIView(ListAPIView):
+    queryset = Osoba.objects.all()
+    serializer_class = OsobaSerializer
 
-# # 3. Wyświetlanie listy osób po fragmencie nazwiska
-# class OsobaSearchAPIView(ListAPIView):
-#     serializer_class = OsobaSerializer
+# 3. Wyświetlanie listy osób po fragmencie nazwiska
+class OsobaSearchAPIView(ListAPIView):
+    serializer_class = OsobaSerializer
 
-#     def get_queryset(self):
-#         # Pobieramy parametr 'name' z URL
-#         name = self.kwargs.get('name', None)
-#         if name:
-#             return Osoba.objects.filter(nazwisko__icontains=name)
-#         return Osoba.objects.none()  # jeśli brak parametru, zwracamy pusty queryset
+    def get_queryset(self):
+        # Pobieramy parametr 'name' z URL
+        name = self.kwargs.get('name', None)
+        if name:
+            return Osoba.objects.filter(nazwisko__icontains=name)
+        return Osoba.objects.none()  # jeśli brak parametru, zwracamy pusty queryset
     
-# class OsobaNameFilterView(APIView):
-#     # #Prostsza wersja ale wtedy wpisujemy po ?search= zamiast ?name=
-#     # queryset = Osoba.objects.all()
-#     # serializer_class = OsobaSerializer
-#     # filter_backends = [SearchFilter]
-#     # search_fields = ['nazwisko']
-#     def get(self, request):
-#         # Pobranie parametru 'name' z query params
-#         name = request.query_params.get('name', None)
+class OsobaNameFilterView(APIView):
+    # #Prostsza wersja ale wtedy wpisujemy po ?search= zamiast ?name=
+    # queryset = Osoba.objects.all()
+    # serializer_class = OsobaSerializer
+    # filter_backends = [SearchFilter]
+    # search_fields = ['nazwisko']
+    def get(self, request):
+        # Pobranie parametru 'name' z query params
+        name = request.query_params.get('name', None)
 
-#         if name:
-#             osoby = Osoba.objects.filter(nazwisko__icontains=name)
-#             serializer = OsobaSerializer(osoby, many=True)
-#             return Response(serializer.data, status=status.HTTP_200_OK)
-#         else:
-#             return Response({"error": "Parametr 'name' jest wymagany."}, status=status.HTTP_400_BAD_REQUEST)
+        if name:
+            osoby = Osoba.objects.filter(nazwisko__icontains=name)
+            serializer = OsobaSerializer(osoby, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "Parametr 'name' jest wymagany."}, status=status.HTTP_400_BAD_REQUEST)
 
-# # 4. Wyświetlanie, dodawanie i usuwanie pojedynczego obiektu Stanowisko
-# class StanowiskoDetailAPIView(RetrieveDestroyAPIView, CreateAPIView):
-#     queryset = Stanowisko.objects.all()
-#     serializer_class = StanowiskoSerializer
+# 4. Wyświetlanie, dodawanie i usuwanie pojedynczego obiektu Stanowisko
+class StanowiskoDetailAPIView(RetrieveDestroyAPIView, CreateAPIView):
+    queryset = Stanowisko.objects.all()
+    serializer_class = StanowiskoSerializer
 
-# # 5. Wyświetlanie listy wszystkich obiektów Stanowisko
-# class StanowiskoListAPIView(ListAPIView):
-#     queryset = Stanowisko.objects.all()
-#     serializer_class = StanowiskoSerializer
+# 5. Wyświetlanie listy wszystkich obiektów Stanowisko
+class StanowiskoListAPIView(ListAPIView):
+    queryset = Stanowisko.objects.all()
+    serializer_class = StanowiskoSerializer

@@ -9,7 +9,7 @@ urlpatterns = [
     path('osoby/', views.osoba_list),
     path('osoby/<int:pk>/', views.osoba_detail),
     path('osoby/nazwisko/<str:name>/', views.osoba_name_filter_url),
-    path('osoby/nazwisko_param', views.osoba_name_filter_params),
+    path('osoby/nazwisko_param', views.osoba_name_filter_params), #NIE DAJEMY "/" NA KONIEC URI
     path('stanowiska/', views.stanowisko_list),
     path('stanowiska/<int:pk>/', views.stanowisko_detail),
     #ClassBasedViews
