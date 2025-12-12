@@ -279,3 +279,107 @@ def osoba_create_django_form(request):
     return render(request,
                   "biblioteka/osoba/create_django.html",
                   {'form': form})
+    
+# Lab 8 (B)
+## Zad 1
+def book_list_html(request):
+    books = Book.objects.all()
+    return render(request,
+                "biblioteka/book/list.html",
+                {'books': books})
+    
+def stanowisko_list_html(request):
+    stanowiska = Stanowisko.objects.all()
+    return render(request,
+                "biblioteka/stanowisko/list.html",
+                {'stanowiska': stanowiska})
+    
+def book_detail_html(request, id):
+    try:
+        book = Book.objects.get(id=id)
+    except Book.DoesNotExist:
+        raise Http404("Obiekt Book o podanym id nie istnieje")
+
+    if request.method == "GET":
+        return render(request,
+                    "biblioteka/book/detail.html",
+                    {'book': book})
+    ## Zad 4
+    if request.method == "POST":
+        book.delete()
+        return redirect('book-list') 
+    
+def stanowisko_detail_html(request, id):
+    try:
+        stanowisko = Stanowisko.objects.get(id=id)
+    except Stanowisko.DoesNotExist:
+        raise Http404("Obiekt Stanowisko o podanym id nie istnieje")
+
+    if request.method == "GET":
+        return render(request,
+                    "biblioteka/stanowisko/detail.html",
+                    {'stanowisko': stanowisko})
+    ## Zad 4
+    if request.method == "POST":
+        stanowisko.delete()
+        return redirect('stanowisko-list') 
+    
+## Zad 2
+from .forms import BookForm, StanowiskoForm
+    
+def book_create(request):
+    if request.method == "POST":
+        form = BookForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('book-list')  
+    else:
+        form = BookForm()
+
+    return render(request,
+                  "biblioteka/book/create.html",
+                  {'form': form})
+    
+def stanowisko_create(request):
+    if request.method == "POST":
+        form = StanowiskoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('stanowisko-list')  
+    else:
+        form = StanowiskoForm()
+
+    return render(request,
+                  "biblioteka/stanowisko/create.html",
+                  {'form': form})
+    
+## Zad 3
+def osoba_name_search(request):
+    if request.method == "POST":
+        nazwisko = request.POST.get("nazwisko")
+        if nazwisko:
+            osoby = Osoba.objects.filter(nazwisko__icontains = nazwisko)
+            return render(request,
+                "biblioteka/osoba/search.html",
+                {'osoby': osoby})
+    return render(request,
+        "biblioteka/osoba/search.html")
+    
+## Zad 5
+from django.shortcuts import get_object_or_404
+
+def osoba_edit(request, id):
+    osoba = get_object_or_404(Osoba, id = id)
+    if request.method == 'POST':
+        form = OsobaForm(request.POST, instance=osoba)  # bindujemy dane do istniejącego obiektu
+        if form.is_valid():
+            form.save() 
+            return redirect('osoba-detail', id)  # przekierowujemy do widoku szczegółowego z id
+    else:
+        form = OsobaForm(instance=osoba)  # formularz z aktualnymi danymi obiektu
+
+    return render(request, 'biblioteka/osoba/edit.html', {'form': form, 'osoba': osoba})
+
+# A Stanowisko i Book adekwatnie do przykładu wyżej ;)
+
+# ============= Lab 9 ================

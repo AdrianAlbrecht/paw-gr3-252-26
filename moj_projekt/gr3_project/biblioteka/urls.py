@@ -27,4 +27,18 @@ urlpatterns = [
     path("html/osoby/<int:id>/", views.osoba_detail_html, name="osoba-detail"),
     path("html/osoby/dodaj/", views.osoba_create_html, name="osoba-create"),
     path("html/osoby/dodaj_django/", views.osoba_create_django_form, name="osoba-create-django"),
+    # Lab 8 (B)
+    ## Zad 1
+    path("html/books/", views.book_list_html, name = "book-list"),
+    path("html/books/<int:id>/", views.book_detail_html, name = "book-detail"),
+    path("html/stanowiska/", views.stanowisko_list_html, name = "stanowisko-list"),
+    path("html/stanowiska/<int:id>/", views.stanowisko_detail_html, name = "stanowisko-detail"),
+    ## Zad 2
+    path("html/books/dodaj/", views.book_create, name = "book-create"),
+    path("html/stanowiska/dodaj/", views.stanowisko_create, name = "stanowisko-create"),
+    ## Zad 3
+    path("html/osoby/szukaj/", views.osoba_name_search, name = "osoba-search-name"),
+    ## Zad 5
+    path('html/osoby/<int:id>/edit/', views.osoba_edit, name='osoba-edit'),
+    # ============= Lab 9 ===================
 ]
