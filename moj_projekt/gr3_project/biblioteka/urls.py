@@ -46,4 +46,9 @@ urlpatterns = [
     path('logout/', views.user_logout, name='user-logout'),
     path('token/login/', views.drf_token_login, name='drf-token-login'),
     path('token/logout/', views.drf_token_logout, name='drf-token-logout'),
+    # Zadania lab 9
+    path("html/osoby/wlasciciel/", views.osoba_list_owner, name = "osoba-list-owner"),
+    path("osoby/<int:pk>/edytuj/", views.osoba_update, name = "osoba-update-drf"),
+    path("osoby/<int:pk>/usun/", views.osoba_delete, name = "osoba-delete-drf"),
+    path("html/stanowiska/<int:pk>/members/", views.osoba_stanowisko, name = "osoba-stanowisko"),
 ]

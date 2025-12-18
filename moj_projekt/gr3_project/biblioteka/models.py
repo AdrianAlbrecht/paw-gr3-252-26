@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Lista wyboru miesięcy wydania
 MONTHS = models.IntegerChoices(
@@ -71,6 +72,9 @@ class Osoba(models.Model):
     plec = models.IntegerField(choices=PLCIE.choices, default=PLCIE.Inna)
     stanowisko = models.ForeignKey('Stanowisko', on_delete=models.CASCADE)
     data_dodania = models.DateField(auto_now_add=True, editable= False)
+    #lab 9 zad2
+    wlasciciel = models.ForeignKey(User, on_delete = models.SET_NULL, null = True, default = 1) # 1 to pierwszy nasz superużytkownik (admin)
+    # po tym uruchamiamy `python manage.py makemigrations` a następnie `python manage.py migrate`
     
     def __str__(self):
         return f"Osoba: {self.imie} {self.nazwisko}"
