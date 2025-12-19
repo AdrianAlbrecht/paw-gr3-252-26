@@ -51,4 +51,7 @@ urlpatterns = [
     path("osoby/<int:pk>/edytuj/", views.osoba_update, name = "osoba-update-drf"),
     path("osoby/<int:pk>/usun/", views.osoba_delete, name = "osoba-delete-drf"),
     path("html/stanowiska/<int:pk>/members/", views.osoba_stanowisko, name = "osoba-stanowisko"),
+    # ============= Lab 10 ===================
+    path("osoby/<int:pk>/permisje/", views.osoba_view),
+    path("osoby/<int:pk>/permisje_decorator/", views.osoba_view_decorator),
 ]
